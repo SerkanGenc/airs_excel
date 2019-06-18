@@ -1,0 +1,13 @@
+{
+   "manifest_version" : 2,
+   "name" : "AIRS Test",
+   "version" : "1.0",
+   "content_scripts" : [
+       {
+           "matches" : [
+               "https://stars.bilkent.edu.tr/airs/index.php?do=advs"
+           ] , 
+           "js" : ["jquery-3.4.1.min.js","xls-export.es5.js","grade_process.js"]
+       }
+   ]
+}
