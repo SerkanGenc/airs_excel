@@ -2,12 +2,19 @@
 // the following js code executes by chrome.
 console.log("Started");
 let all = [] ;
-
+let cgpa ;
 window.addEventListener("load", function() {
 
     // In Advisee page, it collects all students 
     let captions = document.querySelectorAll("span[tip='Curriculum'] a") ;
+    let CGPAs = document.querySelectorAll("[id^='advisees_'] td:nth-of-type(9)");
+    cgpa = Array.from(CGPAs);
+    cgpa = cgpa.map( item => {
+      return item.innerHTML.replace(/&nbsp;/g, "");
+    });
+    //console.log(cgpa);
     let caps = Array.from(captions)    ;
+    //console.log(caps);
     let urls = caps.map( item => {
         // find his/her "id"
         let id = (item.href.split("=")[2]).split("&")[0];
@@ -15,9 +22,11 @@ window.addEventListener("load", function() {
         return "/airs/index.php?do=webservices-redirect&id=" + id + "&service=curriculum&modul=A" ;
     });
 
+    // Her bir öğrenci için curriculum bilgileri isteniyor.
     Promise.all( urls.map(u => fetch(u).then(result=> result.text())))
            .then(texts => {
-            // All async results are available
+            // Tüm sonuçlar html formatında geldi,  texts içinde bulunuyor.
+            // Herbir öğrencinin curriculum'u için parse işlemi yapılıyor ve processStudent bu bilgileri alacak.
             for ( let text of texts) {
                 // html to DOM for easy parsing
                 let page = document.createElement("html");
@@ -25,27 +34,38 @@ window.addEventListener("load", function() {
                 processStudent(page);
             }
 
-            // sort students based on their lastname
+            // Soyisme göre tüm öğrenciler sıralanacak.
             all.sort((a,b) => a.fullname.localeCompare(b.fullname, "tr")) ;
                 
-            // find all courses and their names in the curriculum.
+            // CTIS curriculumda olan tüm dersler birinci öğrencinin curriculumundan alınıyor.
+            // keys, curriculumdaki dersleri sırasıyla tutuyor.
             let keys = all[0].courses.map(item => {
                 return { code: item.code, name : item.name}
             });
 
-            // For each course, add the students' grades with their name.
+            // Her ders için her öğrencinin notunu ekle { code:"CTIS151", name: "Introd..", "Ali": "A", "Veli: "C"} gibi.
             let last = keys.map((course,idx) => {
                 all.forEach(function(std){
                     course[std.fullname] = std.courses[idx].grade ;
                 });
                 return course;
             });
+
+            // CGPA eklemek için
+            let cgpa_row = {code:"", "name": ""} ;
+            all.forEach(function(std,idx){
+               cgpa_row[std.fullname] = cgpa[idx].toString().replace(".", ",") ;
+            });
+           // console.log(cgpa_row);
+            last.push(cgpa_row); 
+            
+
       
             // "last" is array of courses containing students' grades.
             // convet array into xls. (it actually returns html with .xls extension)
             const xls = new XlsExport(last, 'Grades');
             xls.exportToXLS('grades_1.xls') ;
-        });
+        }); 
 });
 
 // Parsing incoming html curriculum data
