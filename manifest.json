@@ -14,5 +14,11 @@
    "browser_action" : {
        "default_icon" : "airs_32.png",
        "default_popup" : "popup.html"
+   },
+   "icons" : {
+       "16" : "airs_16.png",
+       "32" : "airs_32.png",
+       "48" : "airs_48.png",
+       "128" : "airs_128.png"
    }
 }
