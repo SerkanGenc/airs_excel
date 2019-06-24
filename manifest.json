@@ -1,6 +1,6 @@
 {
    "manifest_version" : 2,
-   "name" : "AIRS Test",
+   "name" : "Airs to Excel",
    "version" : "1.0",
    "content_scripts" : [
        {
@@ -9,5 +9,10 @@
            ] , 
            "js" : ["jquery-3.4.1.min.js","xls-export.es5.js","grade_process.js"]
        }
-   ]
+   ],
+   "permissions" : ["tabs"],
+   "browser_action" : {
+       "default_icon" : "airs_32.png",
+       "default_popup" : "popup.html"
+   }
 }

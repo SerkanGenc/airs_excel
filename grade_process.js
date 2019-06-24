@@ -1,9 +1,20 @@
-// Everytime we visit the matched url (https://stars.bilkent.edu.tr/airs/index.php?do=advs), 
-// the following js code executes by chrome.
-console.log("Started");
+console.log("Airs Started");
+var processing = false ;
 let all = [] ;
 let cgpa ;
-window.addEventListener("load", function() {
+chrome.runtime.onMessage.addListener(function(message, sender, senderResponse) {
+   if ( !processing ) {
+       processing = true ;
+       getGrades();
+   } 
+});
+
+// Everytime we visit the matched url (https://stars.bilkent.edu.tr/airs/index.php?do=advs), 
+// the following js code executes by chrome.
+
+
+function getGrades() {
+    console.log("Get Grade started");
 
     // In Advisee page, it collects all students 
     let captions = document.querySelectorAll("span[tip='Curriculum'] a") ;
@@ -58,15 +69,19 @@ window.addEventListener("load", function() {
             });
            // console.log(cgpa_row);
             last.push(cgpa_row); 
-            
-
       
             // "last" is array of courses containing students' grades.
             // convet array into xls. (it actually returns html with .xls extension)
             const xls = new XlsExport(last, 'Grades');
             xls.exportToXLS('grades_1.xls') ;
+            setTimeout(function(){
+               // console.log("finished");
+                all = [] ;
+                cgpa = [] ;
+                processing = false ;
+            }, 2000) ;
         }); 
-});
+}
 
 // Parsing incoming html curriculum data
 function processStudent(page) {
