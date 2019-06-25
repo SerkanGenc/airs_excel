@@ -5,7 +5,7 @@ let cgpa ;
 chrome.runtime.onMessage.addListener(function(message, sender, senderResponse) {
    if ( !processing ) {
        processing = true ;
-       getGrades();
+      getGrades();
    } 
 });
 
@@ -79,6 +79,7 @@ function getGrades() {
                 all = [] ;
                 cgpa = [] ;
                 processing = false ;
+                chrome.runtime.sendMessage({finished : true}) ;
             }, 2000) ;
         }); 
 }
