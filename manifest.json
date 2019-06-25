@@ -10,10 +10,20 @@
            "js" : ["jquery-3.4.1.min.js","xls-export.es5.js","grade_process.js"]
        }
    ],
-   "permissions" : ["tabs"],
-   "browser_action" : {
+   "permissions" : ["activeTab", "declarativeContent", "tabs"],
+   "background" : {
+       "scripts" : ["background.js"],
+       "persistent" : false
+   },
+   "page_action" : {
        "default_icon" : "airs_32.png",
-       "default_popup" : "popup.html"
+       "default_popup" : "popup.html",
+       "default-icon" : {
+        "16" : "airs_16.png",
+        "32" : "airs_32.png",
+        "48" : "airs_48.png",
+        "128" : "airs_128.png"
+    }
    },
    "icons" : {
        "16" : "airs_16.png",
