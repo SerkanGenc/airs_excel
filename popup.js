@@ -1,4 +1,4 @@
-console.log("popup installed");
+//console.log("popup installed");
 var link = document.getElementById("btnSave") ;
 var loader = document.getElementById("spinner");
 link.addEventListener("click", function(e){
