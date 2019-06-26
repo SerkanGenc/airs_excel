@@ -1,4 +1,3 @@
-// console.log("Airs Started");
 var processing = false ;
 let all = [] ;
 let cgpa ;
