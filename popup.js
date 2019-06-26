@@ -7,6 +7,7 @@ link.addEventListener("click", function(e){
       chrome.tabs.sendMessage(tabs[0].id, {text: "hello there"}) ;
    });
    loader.innerHTML = "<img src='img/loader.gif' width='20' height='20' />" ;
+   chrome.tts.speak("Please wait ten seconds to download excel file");
 });
 
 // Message from Content.js

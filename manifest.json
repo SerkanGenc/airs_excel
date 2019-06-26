@@ -10,7 +10,7 @@
            "js" : ["js/jquery-3.4.1.min.js","js/xls-export.es5.js","content.js"]
        }
    ],
-   "permissions" : ["activeTab", "declarativeContent", "tabs"],
+   "permissions" : ["activeTab", "declarativeContent", "tabs", "tts"],
    "background" : {
        "scripts" : ["background.js"],
        "persistent" : false
