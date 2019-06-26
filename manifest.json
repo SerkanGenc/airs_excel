@@ -7,7 +7,7 @@
            "matches" : [
                "https://stars.bilkent.edu.tr/airs/index.php?do=advs"
            ] , 
-           "js" : ["jquery-3.4.1.min.js","xls-export.es5.js","grade_process.js"]
+           "js" : ["jquery-3.4.1.min.js","xls-export.es5.js","content.js"]
        }
    ],
    "permissions" : ["activeTab", "declarativeContent", "tabs"],
