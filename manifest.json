@@ -1,7 +1,9 @@
 {
    "manifest_version" : 2,
    "name" : "Airs to Excel",
-   "version" : "1.0",
+   "version" : "1.1",
+   "description" : "For CTIS Instructors to generate advisees grades in an excel file",
+   "short_name" : "Airs to Excel",
    "content_scripts" : [
        {
            "matches" : [
