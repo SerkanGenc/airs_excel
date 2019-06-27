@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, senderResponse) {
       getGrades();
    } 
 });
-
+// content.js
 // Everytime we visit the matched url (https://stars.bilkent.edu.tr/airs/index.php?do=advs), 
 // the following js code executes by chrome.
 let replacements = [
