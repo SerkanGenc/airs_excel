@@ -23,7 +23,10 @@ function getGrades() {
 
     // In Advisee page, it collects all students 
     let captions = document.querySelectorAll("span[tip='Curriculum'] a") ;
-    let CGPAs = document.querySelectorAll("[id^='advisees_'] td:nth-of-type(9)");
+    let cgpaIdx = $("th:contains('CGPA')").index() + 1; // CGPA, Bilkent içi (VPN ile) 9, dışarıdan 8. sırada 
+    //console.log(cgpaIdx);
+
+    let CGPAs = document.querySelectorAll("[id^='advisees_'] td:nth-of-type(" + cgpaIdx + ")");
     cgpa = Array.from(CGPAs);
     cgpa = cgpa.map( item => {
       return item.innerHTML.replace(/&nbsp;/g, "");
@@ -140,12 +143,12 @@ function processStudent(page) {
     replacements.forEach( trans => {
         curriculumStr =  curriculumStr.replace(trans.from, trans.to) ;
     });
-    console.log(lastname + " : " + curriculumStr);
+    //console.log(lastname + " : " + curriculumStr);
  
     // Add student fullname and her courses/grades into "all" array.
     all.push({
         "fullname" : lastname + " " + name,
         "courses" : courses,
-        "valid" : curriculumStr === lastCurriculum
+        "valid" : curriculumStr === lastCurriculum && curriculum.length === courses.length
     });
 }
