@@ -10,11 +10,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, senderResponse) {
 
 // Everytime we visit the matched url (https://stars.bilkent.edu.tr/airs/index.php?do=advs), 
 // the following js code executes by chrome.
-let replacements = [
-    { from : "251", to : "221"},
-    { from : "252", to : "222"},
-    { from : "415", to : "417"}
- ] ;
+
 let curriculum = [
 {"code":"CTIS 151","name":"Introduction to Programming"},
 {"code":"CTIS 165","name":"Fundamentals of Information Systems"},
@@ -183,11 +179,7 @@ function processStudent(page) {
     // Delete rows that represent previous taken courses
     let courses = curr.filter(item => item.code != "" || item.name != "") ;
     let curriculumStr = JSON.stringify(courses.filter(cr => cr.code.startsWith("CTIS")).map(cr => cr.code));
-    // replacements
-    replacements.forEach( trans => {
-        curriculumStr =  curriculumStr.replace(trans.from, trans.to) ;
-    });
-    //console.log(lastname + " : " + curriculumStr);
+    
  
     // Add student fullname and her courses/grades into "all" array.
     all.push({
