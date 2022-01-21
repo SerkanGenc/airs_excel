@@ -17,13 +17,13 @@ let curriculum = [
 {"code":"ENG 101","name":"English and Composition I"},
 {"code":"GE 100","name":"Orientation"},
 {"code":"MATH 105","name":"Introduction to Calculus I"},
-{"code":"TURK 101","name":"Turkish I", "eq": ["LNG 171"]},
+{"code":"TURK 101","name":"Turkish I"},
 {"code":"CTIS 152","name":"Algorithms and Data Structures"},
-{"code":"CTIS 163","name":"Discrete Mathematics "},
-{"code":"CTIS 164","name":"Technical Mathematics with Programming "},
+{"code":"CTIS 163","name":"Discrete Mathematics"},
+{"code":"CTIS 164","name":"Technical Mathematics with Programming"},
 {"code":"CTIS 166","name":"Information Technologies"},
 {"code":"ENG 102","name":"English and Composition II"},
-{"code":"TURK 102","name":"Turkish II", "eq" : ["LNG 172"]},
+{"code":"TURK 102","name":"Turkish II"},
 {"code":"CTIS 221","name":"Object Oriented Programming"},
 {"code":"CTIS 255","name":"Frontend Web Technologies"},
 {"code":"CTIS 259","name":"Database Management Systems and Applications"},
@@ -41,9 +41,9 @@ let curriculum = [
 {"code":"CTIS 359","name":"Principles of Software Engineering"},
 {"code":"CTIS 365","name":"Applied Data Analysis"},
 {"code":"CTIS 487","name":"Mobile Application Development"},
-{"code":"HIST 200","name":"History of Turkey "},
+{"code":"HIST 200","name":"History of Turkey"},
 {"code":"CTIS 310","name":"Semester Internship"},
-{"code":"CTIS 363","name":"Ethical and Social Issues in Information Systems "},
+{"code":"CTIS 363","name":"Ethical and Social Issues in Information Systems"},
 {"code":"CTIS 411","name":"Senior Project I"},
 {"code":"CTIS 496","name":"Computer and Network Security"},
 {"code":"HCIV 101","name":"History of Civilization I"},
@@ -54,9 +54,23 @@ let curriculum = [
 {"code":"","name":"Humanities Core Elective"},
 {"code":"","name":"Restricted Elective"},
 {"code":"","name":"Restricted Elective"},
-{"code":"","name":"Unrestricted Elective"}
+{"code":"","name":"Unrestricted Elective"},
+{"code":"","name":"Restricted Elective"},
+{"code":"","name":"Restricted Elective"}
 ];
-let lastCurriculum = JSON.stringify(curriculum.filter(cr => cr.code.startsWith("CTIS")).map(cr => cr.code));
+
+const equivalentCourse = {
+    "LNG 171" : "TURK 101",
+    "LNG 172" : "TURK 102",
+    "THM 105" : "Arts Core Elective",
+    "HIST 209" : "HIST 200",
+    "TRK 111" : "TURK 101",
+    "TRK 112" : "TURK 102",
+    "Management Elective" : "Humanities Core Elective",
+    "CTIS 417" : "Restricted Elective"
+}
+
+const exemptedCourse = ["MATH 105", "Science Core Elective"] ;
 
 function getGrades() {
     console.log("Get Grade started");
@@ -95,7 +109,7 @@ function getGrades() {
 
             // Soyisme göre tüm öğrenciler sıralanacak.
             all.sort((a,b) => a.fullname.localeCompare(b.fullname, "tr")) ;
-                
+                            
             // CTIS curriculumda olan tüm dersler birinci öğrencinin curriculumundan alınıyor.
             // keys, curriculumdaki dersleri sırasıyla tutuyor.
             let keys = curriculum.slice(0); // kopyasını çıkar
@@ -103,10 +117,22 @@ function getGrades() {
             // Her ders için her öğrencinin notunu ekle { code:"CTIS151", name: "Introd..", "Ali": "A", "Veli: "C"} gibi.
             let last = keys.map((course,idx) => {
                 all.forEach(function(std){
-                    if ( std.valid) {
-                        course[std.fullname] = std.courses[idx].grade;
+                    let findCourseIndex = std.courses.findIndex(c => (c.code == course.code &&  c.name == course.name) ||
+                                                      equivalentCourse[c.code] == course.code || 
+                                                      equivalentCourse[c.code] == course.name ||
+                                                      equivalentCourse[c.name] == course.name) ;
+
+                    if ( findCourseIndex !== -1 ) {
+                        course[std.fullname] = std.courses[findCourseIndex].grade ;
+                        std.courses.splice(findCourseIndex, 1) ;
                     } else {
-                        course[std.fullname] = " " ;
+                        // eğer curriculum'da bazı dersler yoksa (MATH 105, Science Core) o zaman bunlardan muaftır.
+                        if ( exemptedCourse.find(c => c == course.name || c == course.code)) {
+                            course[std.fullname] = "M" ;
+                        } else {
+                            course[std.fullname] = "" ;
+                        }
+                        
                     }
                 });
                 return course;
@@ -121,7 +147,7 @@ function getGrades() {
             last.push(cgpa_row); 
       
             // "last" is array of courses containing students' grades.
-            // convet array into xls. (it actually returns html with .xls extension)
+            // convert array into xls. (it actually returns html with .xls extension)
             const xls = new XlsExport(last, 'Grades');
             xls.exportToXLS('airs_grades.xls') ;
             setTimeout(function(){
@@ -152,7 +178,7 @@ function processStudent(page) {
         $("tr:gt(0)",$(this).parent().parent()).each(function(i){
             // for each course, add into curr(iculum) array of the student
             let code = $("td:first", $(this)).html();
-            let name = $("td:eq(1)", $(this)).html();
+            let name = $("td:eq(1)", $(this)).html().replace(/\n|\s+/g, " ").trim();
             let status = $("td:eq(2)", $(this)).html();
             let grade = $("td:eq(3)", $(this)).html().replace(/&nbsp;/g, "");
             let taken = $("td:eq(6)", $(this)).html().replace(/&nbsp;/g, "").replace("<br>","");
@@ -168,8 +194,9 @@ function processStudent(page) {
 
         if ( curr[i].status == "Not graded") {
             curr[i].grade = "X" ;
-        } else 
-        if ( curr[i].code == "" && curr[i].name == "") {
+        } else if (curr[i].status == "Exempted") {
+            curr[i].grade = "M"
+        } else if ( curr[i].code == "" && curr[i].name == "") {
             if ( curr[i-1].grade == "") {
                 curr[i-1].grade = curr[i].grade ;
             }
@@ -178,13 +205,12 @@ function processStudent(page) {
 
     // Delete rows that represent previous taken courses
     let courses = curr.filter(item => item.code != "" || item.name != "") ;
-    let curriculumStr = JSON.stringify(courses.filter(cr => cr.code.startsWith("CTIS")).map(cr => cr.code));
-    
+      
  
     // Add student fullname and her courses/grades into "all" array.
     all.push({
         "fullname" : lastname + " " + name,
-        "courses" : courses,
-        "valid" : curriculumStr === lastCurriculum && curriculum.length === courses.length
+        "courses" : courses
     });
 }
+
