@@ -15,7 +15,51 @@ let replacements = [
     { from : "252", to : "222"},
     { from : "415", to : "417"}
  ] ;
-let curriculum = [{"code":"CTIS 151","name":"Introduction to Programming"},{"code":"CTIS 163","name":"Discrete Mathematics "},{"code":"CTIS 165","name":"Fundamentals of Information Systems"},{"code":"ENG 101","name":"English and Composition I"},{"code":"GE 100","name":"Orientation"},{"code":"TURK 101","name":"Turkish I"},{"code":"CTIS 152","name":"Algorithms and Data Structures"},{"code":"CTIS 164","name":"Technical Mathematics with Programming "},{"code":"CTIS 166","name":"Information Technologies"},{"code":"ENG 102","name":"English and Composition II"},{"code":"THM 105","name":"Introduction to Business"},{"code":"TURK 102","name":"Turkish II"},{"code":"CTIS 221","name":"Object Oriented Programming"},{"code":"CTIS 255","name":"Web Technologies I"},{"code":"CTIS 259","name":"Database Management Systems and Applications"},{"code":"CTIS 261","name":"Computer Networks I"},{"code":"ECON 103","name":"Principles of Economics"},{"code":"GE 250","name":"Collegiate Activities Program I"},{"code":"CTIS 222","name":"Object Oriented Analysis and Design"},{"code":"CTIS 256","name":"Web Technologies II"},{"code":"CTIS 262","name":"Computer Networks II"},{"code":"CTIS 264","name":"Computer Algorithms"},{"code":"GE 251","name":"Collegiate Activities Program II"},{"code":"HIST 200","name":"History of Turkey "},{"code":"","name":"Non Technical Elective"},{"code":"CTIS 290","name":"Summer Internship"},{"code":"CTIS 359","name":"Principles of Software Engineering"},{"code":"CTIS 363","name":"Ethical and Social Issues in Information Systems "},{"code":"CTIS 365","name":"Applied Data Analysis"},{"code":"CTIS 487","name":"Mobile Application Development"},{"code":"ELS 301","name":"Advanced Communication Skills"},{"code":"CTIS 310","name":"Semester Internship"},{"code":"CTIS 411","name":"Senior Project I"},{"code":"CTIS 417","name":"Software Design Patterns"},{"code":"CTIS 496","name":"Computer and Network Security"},{"code":"","name":"Management Elective"},{"code":"","name":"Restricted Elective"},{"code":"","name":"Restricted Elective"},{"code":"CTIS 456","name":"Senior Project II"},{"code":"","name":"Restricted Elective"},{"code":"","name":"Restricted Elective"},{"code":"","name":"Unrestricted Elective"},{"code":"","name":"Unrestricted Elective"}];
+let curriculum = [
+{"code":"CTIS 151","name":"Introduction to Programming"},
+{"code":"CTIS 165","name":"Fundamentals of Information Systems"},
+{"code":"ENG 101","name":"English and Composition I"},
+{"code":"GE 100","name":"Orientation"},
+{"code":"MATH 105","name":"Introduction to Calculus I"},
+{"code":"TURK 101","name":"Turkish I", "eq": ["LNG 171"]},
+{"code":"CTIS 152","name":"Algorithms and Data Structures"},
+{"code":"CTIS 163","name":"Discrete Mathematics "},
+{"code":"CTIS 164","name":"Technical Mathematics with Programming "},
+{"code":"CTIS 166","name":"Information Technologies"},
+{"code":"ENG 102","name":"English and Composition II"},
+{"code":"TURK 102","name":"Turkish II", "eq" : ["LNG 172"]},
+{"code":"CTIS 221","name":"Object Oriented Programming"},
+{"code":"CTIS 255","name":"Frontend Web Technologies"},
+{"code":"CTIS 259","name":"Database Management Systems and Applications"},
+{"code":"CTIS 261","name":"Fundamentals of Computer Networks"},
+{"code":"ECON 103","name":"Principles of Economics"},
+{"code":"GE 250","name":"Collegiate Activities Program I"},
+{"code":"CTIS 222","name":"Object Oriented Analysis and Design"},
+{"code":"CTIS 256","name":"Introduction to Backend Development"},
+{"code":"CTIS 262","name":"Applied Computer Networks"},
+{"code":"CTIS 264","name":"Computer Algorithms"},
+{"code":"GE 251","name":"Collegiate Activities Program II"},
+{"code":"","name":"Science Core Elective"},
+{"code":"COMD 358","name":"Professional Communication"},
+{"code":"CTIS 290","name":"Summer Internship"},
+{"code":"CTIS 359","name":"Principles of Software Engineering"},
+{"code":"CTIS 365","name":"Applied Data Analysis"},
+{"code":"CTIS 487","name":"Mobile Application Development"},
+{"code":"HIST 200","name":"History of Turkey "},
+{"code":"CTIS 310","name":"Semester Internship"},
+{"code":"CTIS 363","name":"Ethical and Social Issues in Information Systems "},
+{"code":"CTIS 411","name":"Senior Project I"},
+{"code":"CTIS 496","name":"Computer and Network Security"},
+{"code":"HCIV 101","name":"History of Civilization I"},
+{"code":"","name":"Arts Core Elective"},
+{"code":"","name":"Restricted Elective"},
+{"code":"CTIS 456","name":"Senior Project II"},
+{"code":"HCIV 102","name":"History of Civilization II"},
+{"code":"","name":"Humanities Core Elective"},
+{"code":"","name":"Restricted Elective"},
+{"code":"","name":"Restricted Elective"},
+{"code":"","name":"Unrestricted Elective"}
+];
 let lastCurriculum = JSON.stringify(curriculum.filter(cr => cr.code.startsWith("CTIS")).map(cr => cr.code));
 
 function getGrades() {
@@ -58,7 +102,7 @@ function getGrades() {
                 
             // CTIS curriculumda olan tüm dersler birinci öğrencinin curriculumundan alınıyor.
             // keys, curriculumdaki dersleri sırasıyla tutuyor.
-            let keys = curriculum.slice(0);
+            let keys = curriculum.slice(0); // kopyasını çıkar
            
             // Her ders için her öğrencinin notunu ekle { code:"CTIS151", name: "Introd..", "Ali": "A", "Veli: "C"} gibi.
             let last = keys.map((course,idx) => {
