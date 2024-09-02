@@ -13,28 +13,28 @@ chrome.runtime.onMessage.addListener(function(message, sender, senderResponse) {
 
 let curriculum = [
 {"code":"CTIS 151","name":"Introduction to Programming"},
+{"code":"CTIS 163","name":"Discrete Mathematics"},
 {"code":"CTIS 165","name":"Fundamentals of Information Systems"},
 {"code":"ENG 101","name":"English and Composition I"},
 {"code":"GE 100","name":"Orientation"},
-{"code":"MATH 105","name":"Introduction to Calculus I"},
 {"code":"TURK 101","name":"Turkish I"},
 {"code":"CTIS 152","name":"Algorithms and Data Structures"},
-{"code":"CTIS 163","name":"Discrete Mathematics"},
 {"code":"CTIS 164","name":"Technical Mathematics with Programming"},
 {"code":"CTIS 166","name":"Information Technologies"},
 {"code":"ENG 102","name":"English and Composition II"},
 {"code":"TURK 102","name":"Turkish II"},
+{"code":"","name":"Mathematics Elective"},
 {"code":"CTIS 221","name":"Object Oriented Programming"},
 {"code":"CTIS 255","name":"Frontend Web Technologies"},
 {"code":"CTIS 259","name":"Database Management Systems and Applications"},
 {"code":"CTIS 261","name":"Fundamentals of Computer Networks"},
-{"code":"ECON 103","name":"Principles of Economics"},
 {"code":"GE 250","name":"Collegiate Activities Program I"},
+{"code":"","name":"Social Science Core Elective"},
 {"code":"CTIS 222","name":"Object Oriented Analysis and Design"},
 {"code":"CTIS 256","name":"Introduction to Backend Development"},
-{"code":"CTIS 262","name":"Applied Computer Networks"},
 {"code":"CTIS 264","name":"Computer Algorithms"},
 {"code":"GE 251","name":"Collegiate Activities Program II"},
+{"code":"","name":"General Elective"},
 {"code":"","name":"Science Core Elective"},
 {"code":"COMD 358","name":"Professional Communication"},
 {"code":"CTIS 290","name":"Summer Internship"},
@@ -43,20 +43,18 @@ let curriculum = [
 {"code":"CTIS 487","name":"Mobile Application Development"},
 {"code":"HIST 200","name":"History of Turkey"},
 {"code":"CTIS 310","name":"Semester Internship"},
-{"code":"CTIS 363","name":"Ethical and Social Issues in Information Systems"},
 {"code":"CTIS 411","name":"Senior Project I"},
 {"code":"CTIS 496","name":"Computer and Network Security"},
 {"code":"HCIV 101","name":"History of Civilization I"},
 {"code":"","name":"Arts Core Elective"},
-{"code":"","name":"Restricted Elective"},
+{"code":"","name":"Information Systems Elective"},
+{"code":"","name":"Information Systems Elective"},
 {"code":"CTIS 456","name":"Senior Project II"},
 {"code":"HCIV 102","name":"History of Civilization II"},
+{"code":"","name":"General Elective"},
 {"code":"","name":"Humanities Core Elective"},
-{"code":"","name":"Restricted Elective"},
-{"code":"","name":"Restricted Elective"},
-{"code":"","name":"Unrestricted Elective"},
-{"code":"","name":"Restricted Elective"},
-{"code":"","name":"Restricted Elective"}
+{"code":"","name":"Information Systems Elective"},
+{"code":"","name":"Information Systems Elective"},
 ];
 
 const equivalentCourse = {
@@ -67,7 +65,7 @@ const equivalentCourse = {
     "TRK 111" : "TURK 101",
     "TRK 112" : "TURK 102",
     "Management Elective" : "Humanities Core Elective",
-    "CTIS 417" : "Restricted Elective"
+    "CTIS 417" : "Information Systems Elective"
 }
 
 const exemptedCourse = ["MATH 105", "Science Core Elective"] ;
