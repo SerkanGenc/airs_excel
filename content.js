@@ -68,7 +68,7 @@ const equivalentCourse = {
     "CTIS 417" : "Information Systems Elective"
 }
 
-const exemptedCourse = ["MATH 105", "Science Core Elective"] ;
+const exemptedCourse = ["MATH 105", "Science Core Elective", "Mathematics Elective"] ;
 
 function getGrades() {
     console.log("Get Grade started");
